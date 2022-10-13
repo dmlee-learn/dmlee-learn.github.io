@@ -1,16 +1,51 @@
-//const loginForm = document.querySelector('#login-form');
+const loginForm = document.querySelector('#login-form');
 const loginInput = document.querySelector('#login-form input');
-const loginButton = document.querySelector('#login-form button');
+const link = document.querySelector("a");
+const greeting = document.querySelector('.greeting');
 
-let handleLoginButton = () => {
-    const username = loginInput.value;
-    /*    
-    if('' === username) alert('please input your name');
-    else if(20 < username.length) alert('your name is too long');
-    else console.log('good job')
-    */
-    console.log(username);
+const HIDDEN = 'hidden';
+const USER_NAME = 'username';
+
+let onLoginSubmit = (event) => {
+    event.preventDefault();
+    loging(loginInput.value);      
 }
 
-loginButton.addEventListener('click',handleLoginButton);
-console.log(loginInput);
+let loging = (username) => {
+    const state = loginForm.classList.contains(HIDDEN);
+    if(state) {
+        setGreetingInnerText('');
+    } else {        
+        setGreetingInnerText(`Hello ${username}`);
+        localStorage.setItem(USER_NAME, username);
+    }    
+    changeToggle(loginForm, HIDDEN); 
+}
+ 
+let onlinkClick = (event) => {
+    //alert('clicked!!'); // html all stop while alert events
+    changeToggle(loginForm, HIDDEN);
+    event.preventDefault();
+    console.dir(event);
+}
+
+let changeToggle = (item, className) => {
+    item.classList.toggle(className);
+}
+
+let setGreetingInnerText = (username) => {
+    greeting.innerText = username;
+    if(username) {
+        greeting.classList.remove(HIDDEN)
+    } else {
+        greeting.classList.add(HIDDEN);
+    }    
+}
+window.onload = function() {
+    const username = localStorage.getItem(USER_NAME);
+    if(username !== null) setGreetingInnerText(`Hello ${username}`);
+    else changeToggle(loginForm, HIDDEN);
+}
+
+link.addEventListener('click', onlinkClick);
+loginForm.addEventListener('submit',onLoginSubmit);
