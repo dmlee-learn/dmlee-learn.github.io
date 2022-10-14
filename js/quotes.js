@@ -600,7 +600,6 @@ const getRandomQuote = () => {
     const quote = document.querySelector("#quote span:first-child");
     const author = document.querySelector("#quote span:last-child");
     const ramdom = Math.floor(Math.random() * (quotes.length - 0) + 0);
-    console.log(quotes[ramdom]);
     quote.innerText = quotes[ramdom]['message'];
     author.innerText = quotes[ramdom]['author'];
 }
