@@ -1,144 +1,90 @@
-let todolistArray = [];
-const TODOS = 'todos';
-class todoClass {
-    TODOFORM_NAME = 'todo-form';
-    TODOFORM_INPUT_NAME = 'todo-form-input';
-    TODOFORM_SUBMIT_NAME = 'todo-form-submit';
-    TODOLIST_NAME = 'todo-list';
-    todoDivId = '';
-    todoForm = '';
-    todoList = '';
-    
+//use todoObject(divname);
+let todoObject = {
+    TODOS:'todos'
+    , TODOFORM_INPUT_NAME : 'todo-form'
+    , TODOFORM_INPUT_NAME:'todo-form-input'
+    , TODOFORM_SUBMIT_NAME:'todo-form-submit'
+    , TODOLIST_NAME:'todo-list'
+    , ID:'id'
+    , TEXT:'text'
+    , todolistArray:[]
+    , todoDivId:{}
+    , todoForm:document.createElement('form')
+    , todoformInput:document.createElement('input')
+    , todoformButton:document.createElement('button')
+    , todoList:document.createElement('ul')
 
-    constructor(todoDivId) {
-        this.todoDivId = document.querySelector(`#${todoDivId}`);
-    }
+    , init:(todoDivId) => {
+        todoObject.todoDivId = document.querySelector(`#${todoDivId}`);
 
-    init(){
+         //create form
+        todoObject.todoForm.setAttribute(todoObject.ID, todoObject.TODOFORM_NAME);
+        todoObject.todoformInput.setAttribute(todoObject.ID, todoObject.TODOFORM_INPUT_NAME);
+        todoObject.todoformInput.placeholder="input to your todo"
+        todoObject.todoformButton.setAttribute(todoObject.ID, todoObject.TODOFORM_SUBMIT_NAME);
+        todoObject.todoformButton.setAttribute('type', 'submit');
+        todoObject.todoformButton.innerText = 'submit';
+        todoObject.todoformButton.classList.add('hidden');
 
-        //create form
-        this.todoForm = document.createElement('form');
-        this.todoForm.setAttribute('id', this.TODOFORM_NAME);
-        this.todoformInput = document.createElement('input');
-        this.todoformInput.setAttribute('id', this.TODOFORM_INPUT_NAME);
-        this.todoformInput.placeholder="input to your todo"
-        this.todoformButton = document.createElement('button');
-        this.todoformButton.setAttribute('id', this.TODOFORM_SUBMIT_NAME);
-        this.todoformButton.setAttribute('type', 'submit');
-        this.todoformButton.innerText = 'submit';
-        this.todoformButton.classList.add('hidden');
+        //create list     
+        todoObject.todoList.setAttribute(todoObject.ID, todoObject.TODOLIST_NAME);
 
-        //create list
-        this.todoList = document.createElement('ul');        
-        this.todoList.setAttribute('id', this.TODOLIST_NAME);
+        todoObject.todoForm.appendChild(todoObject.todoformInput);
+        todoObject.todoForm.appendChild(todoObject.todoformButton);
+        todoObject.todoDivId.appendChild(todoObject.todoForm);
+        todoObject.todoDivId.appendChild(todoObject.todoList);
 
-        this.todoForm.appendChild(this.todoformInput);
-        this.todoForm.appendChild(this.todoformButton);
-        this.todoDivId.appendChild(this.todoForm);
-        this.todoDivId.appendChild(this.todoList);
-
-        //this.todoformButton inti
-        this.todoformButton.addEventListener('click', this.onTodoformButtonClick);
+        //todoObject.todoformButton inti
+        todoObject.todoformButton.addEventListener('click', todoObject.onTodoformButtonClick);
         
-        const todolistStorage = localStorage.getItem(TODOS);
+        //if save make list
+        const todolistStorage = localStorage.getItem(todoObject.TODOS);
         if(todolistStorage !== null) {
-            todolistArray = JSON.parse(todolistStorage);
-            console.log(todolistArray);
-            //this.loadTodoList(todolistArray);
-            todolistArray.forEach(this.makeTodoItem);
-        }
-    }
-
-    saveTodoList(todolistArray){
-        localStorage.setItem(TODOS, JSON.stringify(todolistArray));
-    }
-
-    makeTodoItem(item) {
-        const TODOLIST_NAME = 'todo-list';
-        const todoList = document.querySelector(`#${TODOLIST_NAME}`);
-
-        const todoItem = document.createElement('li');
-        const span = document.createElement('span'); 
-        const button = document.createElement('button');
-        
-        span.innerText = item;
-
-        button.innerText = '❌';
-        
-
-        todoItem.appendChild(span);
-        todoItem.appendChild(button);
-        todoList.appendChild(todoItem);
-        button.addEventListener('click', todo.onDeleteTodo);
-        
-    }
-
-    loadTodoList(todolistArray) {
-        for(let item in todolistArray) {
-            console.log(todolistArray[item]);
-            const TODOLIST_NAME = 'todo-list';        
-            const parent = this.parentElement;
-            const todoList = document.querySelector(`#${TODOLIST_NAME}`);
-
-            const todoItem = document.createElement('li');
-            const span = document.createElement('span'); 
-            const button = document.createElement('button');
-            
-            span.innerText = todolistArray[item];
-
-            button.innerText = '❌';
-            
-
-            todoItem.appendChild(span);
-            todoItem.appendChild(button);
-            todoList.appendChild(todoItem);
-            button.addEventListener('click', todo.onDeleteTodo);
+            todoObject.todolistArray = JSON.parse(todolistStorage);
+            todoObject.todolistArray.forEach(todoObject.makeTodoItem);
         }
     }
     
-    onTodoformButtonClick(event) {
-        event.preventDefault();
-        const TODOLIST_NAME = 'todo-list';        
-        const parent = this.parentElement;
-        const input = parent.querySelector('input');
-        const todoList = document.querySelector(`#${TODOLIST_NAME}`);
-
+    , makeTodoItem:(item) => {
         const todoItem = document.createElement('li');
         const span = document.createElement('span'); 
         const button = document.createElement('button');
-        
-        const inputText = input.value;
-        span.innerText = inputText;
-        console.dir(this);
-        todolistArray.push(inputText);
-        input.value = '';
-
-        button.innerText = '❌';
-        
+        todoItem.setAttribute(todoObject.ID, item.id);
+        span.innerText = item.text;
+        button.innerText = '❌';        
 
         todoItem.appendChild(span);
         todoItem.appendChild(button);
-        todoList.appendChild(todoItem);
-        button.addEventListener('click', todo.onDeleteTodo);
-        console.log(todolistArray);
-        todo.saveTodoList(todolistArray);
+        todoObject.todoList.appendChild(todoItem);
+        button.addEventListener('click', todoObject.onDeleteTodo);
+    }
+    , saveTodoList:(todolistArray) => {
+        todoObject.saveStorage(todoObject.TODOS, todolistArray);
+    }
+    
+    , saveStorage:(key, todolistArray) => {
+        localStorage.setItem(key, JSON.stringify(todolistArray));
     }
 
-    onDeleteTodo(event) {
-        const parent = event.target.parentElement;       
-        console.dir(parent); 
+    , onTodoformButtonClick:(event) => {
+        event.preventDefault();                
+        const inputText = todoObject.todoformInput.value;        
+        const itemArray = {id:Date.now(), text:inputText};
+        todoObject.makeTodoItem(itemArray);
+        todoObject.todolistArray.push(itemArray);
+        todoObject.todoformInput.value = '';       
+        todoObject.saveTodoList(todoObject.todolistArray);
+    }
+
+    , onDeleteTodo:(event) => {
+        const parent = event.target.parentElement;
+        todoObject.removeById(parseInt(parent.id));
         parent.remove();
     }
 
-}
-
-let todo = new todoClass("todoDiv");
-todo.init();
-/*
-const todo = {
-    todoForm:document.querySelector('#todo-form')
-    , todoList:document.querySelector('#todo-list')
-    , 
+    , removeById:(id) => {      
+        todoObject.todolistArray = todoObject.todolistArray.filter(item => id !== item.id);
+        todoObject.saveTodoList(todoObject.todolistArray);
+    }
 };
-*/
 

@@ -16,14 +16,8 @@
     </form>
     <h2 id="clock"></h2>
     <h1 class="greeting hidden" id="greeting"></h1>
-    <div id="todoDiv">
-    <!---
-    <form action="" id="todo-form">
-
-    </form>
-    <ul id="todo-list"></ul>
-    -->
-    </div>
+    <div id="todoDiv"></div>
+    <div id="weatherDiv"></div>
 
     <div id="quote">
         <span></span>
@@ -36,5 +30,11 @@
     <script src="./js/quotes.js"></script>
     <script src="./js/background.js"></script>
     <script src="./js/todoList.js"></script>
+    <script src="./js/weather.js"></script>
+
+    <script>
+        todoObject.init('todoDiv');
+        weatherObject.init('weatherDiv');
+    </script>
 </body>
 </html>
