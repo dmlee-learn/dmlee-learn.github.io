@@ -1,6 +1,6 @@
 const loginForm = document.querySelector('#login-form');
 const loginInput = document.querySelector('#login-form input');
-const link = document.querySelector("a");
+const link = document.querySelector("#nameBase a");
 const greeting = document.querySelector('.greeting');
 
 const HIDDEN = 'hidden';

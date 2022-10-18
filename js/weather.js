@@ -6,18 +6,22 @@ const weatherObject = {
     , alt:0.0
     , API_KEY:'72d69fc428f8539245d7ce15f22552a2'
     , weather_url:''
+    , userLang:navigator.language || navigator.userLanguage
+    , langCode:'en'
     , init:(baseDiv) => {
+        switch(weatherObject.userLang){
+            case 'ko' : 
+                weatherObject.langCode = 'kr'
+            break;
+        }
         weatherObject.baseDiv = document.querySelector(`#${baseDiv}`);
-        console.log(baseDiv);
-        console.log(weatherObject.baseDiv);
         navigator.geolocation.getCurrentPosition(weatherObject.geoSuccessCallback, weatherObject.geoErrorCallback);
     }
 
     , geoSuccessCallback:(GeolocationPosition) => {
         weatherObject.lat = GeolocationPosition.coords.latitude;
         weatherObject.lon = GeolocationPosition.coords.longitude;
-        weatherObject.weather_url = `https://api.openweathermap.org/data/2.5/weather?lat=${weatherObject.lat}&lon=${weatherObject.lon}&appid=${weatherObject.API_KEY}&units=metric`;
-        console.log(weatherObject.weather_url);
+        weatherObject.weather_url = `https://api.openweathermap.org/data/2.5/weather?lat=${weatherObject.lat}&lon=${weatherObject.lon}&appid=${weatherObject.API_KEY}&units=metric&lang=${weatherObject.langCode}`;
         weatherObject.getData(weatherObject.weather_url);
     }
 
@@ -34,13 +38,14 @@ const weatherObject = {
 
     , processingDate:(data) => {
         data.json().then(data => {
-            console.log(data.name, data.weather[0].main);
             const citySpan = document.createElement('span');
             const weatherSpan = document.createElement('span');
             const tempSpan = document.createElement('span');
 
-            citySpan.innerText = data.name;
-            weatherSpan.innerText = data.weather[0].main;
+            var userLang = navigator.language || navigator.userLanguage;
+
+            citySpan.innerText = weatherObject.getCityText(data.name);
+            weatherSpan.innerText = data.weather[0].description;
             tempSpan.innerText = data.main.temp;
 
             weatherObject.baseDiv.appendChild(citySpan);
@@ -51,5 +56,15 @@ const weatherObject = {
 
     , catchGetData:(data) => {
         console.log(data);
+    }
+
+    , getCityText:(name) => {
+        switch(weatherObject.userLang) {
+            case 'ko':
+                if('busan' === name.toLowerCase()) name = '부산';
+                else if ('seoul' === name.toLowerCase()) name = '서울';
+            break;
+        }
+        return name;
     }
 };

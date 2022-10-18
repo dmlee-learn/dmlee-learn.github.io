@@ -51,6 +51,7 @@ let todoObject = {
         const button = document.createElement('button');
         todoItem.setAttribute(todoObject.ID, item.id);
         span.innerText = item.text;
+        button.classList.add('todo-list-delete-button');
         button.innerText = '❌';        
 
         todoItem.appendChild(span);
