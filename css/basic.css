@@ -1,3 +1,7 @@
+:root {
+    --design-unit: 4;
+    --search-box-radius: 22px;
+}
 html, body {
     background-color:beige;
     width: 100%;
@@ -22,13 +26,42 @@ html, body {
     border: 0;
 }
 
-.clockBase, .nameBase, .todoBase, .quoteBase  {
+#clockBase, #nameBase, #todoBase, #quoteBase  {
     text-align: center;
 }
 
-input {
-    border-radius: 12px;
+input[type="text"] {
+    
     height: 20px;
-    padding: calc(var(--design-unit) * 2px + 2px) 12px calc(var(--design-unit) * 2px + 2px) 16px;
+    /* 
+    border-radius: 24px;
+    padding: calc(var(--design-unit) * 2px + 2px) 12px calc(var(--design-unit) * 2px + 2px) 16px; 
+    */
     font-size: 16px;
+
+    background: transparent;
+    border-right: none;
+    border-left: none;
+    border-top: none;
+    border-block-color: white;
+    color: white;
+}
+
+input[type="text"]::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: aliceblue;
+    opacity: 1; /* Firefox */
   }
+
+input[type="text"]:focus {
+    outline: none;
+}
+
+input[type="submit"] {
+    border-radius: 5px;
+    height: 44px;
+    font-size: 16px;
+}
+
+.inline {
+    display: block;
+}

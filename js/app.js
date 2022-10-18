@@ -1,7 +1,7 @@
 const loginForm = document.querySelector('#login-form');
 const loginInput = document.querySelector('#login-form input');
 const link = document.querySelector("#nameBase a");
-const greeting = document.querySelector('.greeting');
+const greeting = document.querySelector('#greeting');
 
 const HIDDEN = 'hidden';
 const USER_NAME = 'username';
@@ -47,5 +47,5 @@ window.onload = function() {
     else changeToggle(loginForm, HIDDEN);
 }
 
-link.addEventListener('click', onlinkClick);
+//link.addEventListener('click', onlinkClick);
 loginForm.addEventListener('submit',onLoginSubmit);

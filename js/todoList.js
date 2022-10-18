@@ -1,12 +1,14 @@
 //use todoObject(divname);
 let todoObject = {
     TODOS:'todos'
-    , TODOFORM_INPUT_NAME : 'todo-form'
+    , TODOFORM_NAME : 'todo-form'
+    , TODOFORM_INPUT_SPAN:'todo-form-span'
     , TODOFORM_INPUT_NAME:'todo-form-input'
     , TODOFORM_SUBMIT_NAME:'todo-form-submit'
     , TODOLIST_NAME:'todo-list'
     , ID:'id'
     , TEXT:'text'
+    , INLINE:'inline'
     , todolistArray:[]
     , todoDivId:{}
     , todoForm:document.createElement('form')
@@ -18,8 +20,12 @@ let todoObject = {
         todoObject.todoDivId = document.querySelector(`#${todoDivId}`);
 
          //create form
+        const h2 = document.createElement('h2');
+        h2.classList.add(todoObject.INLINE);
+        h2.innerText = 'What is main your focus?';
         todoObject.todoForm.setAttribute(todoObject.ID, todoObject.TODOFORM_NAME);
         todoObject.todoformInput.setAttribute(todoObject.ID, todoObject.TODOFORM_INPUT_NAME);
+        todoObject.todoformInput.setAttribute('type', 'text');
         todoObject.todoformInput.placeholder="input to your todo"
         todoObject.todoformButton.setAttribute(todoObject.ID, todoObject.TODOFORM_SUBMIT_NAME);
         todoObject.todoformButton.setAttribute('type', 'submit');
@@ -29,6 +35,7 @@ let todoObject = {
         //create list     
         todoObject.todoList.setAttribute(todoObject.ID, todoObject.TODOLIST_NAME);
 
+        todoObject.todoForm.appendChild(h2);
         todoObject.todoForm.appendChild(todoObject.todoformInput);
         todoObject.todoForm.appendChild(todoObject.todoformButton);
         todoObject.todoDivId.appendChild(todoObject.todoForm);

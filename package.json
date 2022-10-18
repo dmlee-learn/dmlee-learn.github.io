@@ -19,7 +19,6 @@
   },
   "homepage": "https://github.com/dmlee-learn/momentum#readme",
   "devDependencies": {
-    "electorn": "^0.0.1-security",
-    "electron": "^21.1.1"
+    "electron": "^6.1.12"
   }
 }
