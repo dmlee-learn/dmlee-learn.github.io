@@ -1,6 +1,8 @@
 :root {
     --design-unit: 4;
     --search-box-radius: 22px;
+    --base-color : blue;
+    --base-text-color : white;
 }
 html, body {
     background-color:beige;
@@ -44,7 +46,7 @@ input[type="text"] {
     border-left: none;
     border-top: none;
     border-block-color: white;
-    color: white;
+    color: var(--base-text-color);
 }
 
 input[type="text"]::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
